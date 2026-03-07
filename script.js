@@ -10,11 +10,6 @@ const firebaseConfig = {
     appId: "1:907666198541:web:55b6401e1a8f036c0e8544"
 };
 // ─────────────────────────────────────────────────────────────────────────────
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
@@ -184,3 +179,4 @@ if ('serviceWorker' in navigator) {
             .catch(err => console.warn('SW registration failed:', err));
     });
 }
+
