@@ -1,0 +1,373 @@
+:root {
+    --primary: #067020;
+    --primary-light: #185e08;
+    --bg-dark: #0f0c29;
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --text-main: #ffffff;
+    --text-dim: #b0b0b0;
+    --success: #00ff87;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', sans-serif;
+}
+
+body {
+    background: var(--bg-dark);
+    background: linear-gradient(to right, #24243e, #0f0c29);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.background-blobs {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.blob {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: linear-gradient(45deg, var(--primary), var(--primary-light));
+    filter: blur(80px);
+    border-radius: 50%;
+    opacity: 0.3;
+}
+
+.blob-1 {
+    top: -50px;
+    left: -50px;
+}
+
+.blob-2 {
+    bottom: -50px;
+    right: -50px;
+    background: #602080;
+}
+
+.blob-3 {
+    top: 30%;
+    left: 40%;
+    width: 250px;
+    height: 250px;
+    background: #9d50bb;
+}
+
+.container {
+    width: 100%;
+    max-width: 850px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+h1 {
+    font-size: 2.2rem;
+    font-weight: 100;
+    letter-spacing: 3px;
+}
+
+.subtitle {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    margin-top: 9px;
+}
+
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 30px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+/* Scanner Styles */
+#reader {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--glass-border);
+}
+
+.divider {
+    text-align: center;
+    margin: 20px 0;
+    position: relative;
+    color: var(--text-dim);
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 40%;
+    height: 3px;
+    background: var(--glass-border);
+}
+
+.divider::before {
+    left: 0;
+}
+
+.divider::after {
+    right: 0;
+}
+
+.manual-entry {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+input {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 18px 25px;
+    color: white;
+    outline: none;
+    font-size: 1.2rem;
+    width: 100%;
+    transition: 0.3s;
+}
+
+input::placeholder {
+    letter-spacing: normal;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 20px;
+    border: none;
+    border-radius: 18px;
+    background: linear-gradient(45deg, var(--primary), var(--primary-light));
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-primary:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 5px 15px rgba(35, 133, 5, 0.555);
+}
+
+.btn-back {
+    background: transparent;
+    border: none;
+    color: var(--primary);
+    cursor: pointer;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+}
+
+/* Result Styles */
+.prescription-header {
+    text-align: center;
+    margin-bottom: 25px;
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 20px;
+}
+
+.medication-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.med-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--glass-border);
+    border-radius: 15px;
+    padding: 15px;
+}
+
+.notes-display {
+    margin-bottom: 25px;
+    padding: 15px;
+    background: rgba(157, 80, 187, 0.05);
+    border-left: 3px solid var(--primary);
+    border-radius: 0 12px 12px 0;
+}
+
+.notes-display h3 {
+    font-size: 0.8rem;
+    color: var(--primary);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.notes-display p {
+    font-size: 0.95rem;
+    font-style: italic;
+    color: var(--text-main);
+}
+
+.med-card h4 {
+    color: var(--primary);
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.med-details {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: var(--text-dim);
+}
+
+.med-detail-item {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+}
+
+.med-value {
+    font-size: 0.95rem;
+    color: var(--text-main);
+    font-weight: 500;
+}
+
+.med-label {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 400;
+}
+
+.med-timing-tag {
+    background: rgba(0, 210, 255, 0.1) !important;
+    color: var(--primary) !important;
+    border: 1px solid rgba(0, 210, 255, 0.2);
+}
+
+.doctor-footer {
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.presc-date {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    margin-top: 10px;
+}
+
+#reader__status_span {
+    display: none;
+}
+
+#reader__dashboard_section_csr button {
+    background: var(--primary) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 8px 15px !important;
+    color: white !important;
+    margin: 10px !important;
+}
+
+/* ─── Tablet ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    #reader {
+        max-width: 100%;
+    }
+}
+
+/* ─── Mobile ─────────────────────────────────────────── */
+@media (max-width: 480px) {
+    body {
+        align-items: flex-start;
+        padding: 12px 12px env(safe-area-inset-bottom, 12px);
+    }
+
+    h1 {
+        font-size: 1.5rem;
+        letter-spacing: 1px;
+    }
+
+    header {
+        margin-bottom: 16px;
+    }
+
+    .glass-card {
+        padding: 16px;
+        border-radius: 18px;
+    }
+
+    input {
+        padding: 14px 16px;
+        font-size: 1rem;
+    }
+
+    .btn-primary {
+        padding: 16px;
+        font-size: 1rem;
+    }
+
+    .med-details {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .med-detail-item {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .doctor-footer p {
+        font-size: 0.9rem;
+    }
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: rgba(41, 3, 3, 0.144);
+    text-align: right;
+    padding: 1px 0 calc(1px + env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid #00000011;
+}
+
+.footer-note {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.25);
+    padding-right: 12px;
+}

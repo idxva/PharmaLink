@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#067020">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="PharmaLink">
+    <meta name="description" content="Pharmacist prescription decryption portal">
+    <link rel="manifest" href="manifest.json">
+    <title>PharmaLink | Pharmacist Portal</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+</head>
+
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="logo">
+                <span class="logo-icon">💊</span>
+                <h1>PharmaLink</h1>
+            </div>
+            <p class="subtitle">Decrypting Module</p>
+        </header>
+
+        <main class="glass-card">
+            <div id="scannerSection" class="scanner-container">
+                <div id="reader"></div>
+                <div class="divider">
+                    <span>(OR)</span>
+                </div>
+                <div class="manual-entry">
+                    <input type="text" id="otpEntry" placeholder="Enter 5-digit OTP" maxlength="5">
+                    <button id="lookupBtn" class="btn-primary">View Prescription</button>
+                </div>
+            </div>
+
+            <div id="resultSection" style="display: none;">
+                <div class="prescription-header">
+                    <button id="backBtn" class="btn-back">← Back to Scanner</button>
+                    <h2 id="patientName">John Doe</h2>
+                    <p id="patientInfo">Age: 25 | Gender: Male</p>
+                </div>
+
+                <div class="medication-list" id="medsDisplay">
+                    <!-- Meds will be injected here -->
+                </div>
+
+                <div id="notesContainer" class="notes-display" style="display: none;">
+                    <h3>Notes from Doctor</h3>
+                    <p id="prescNotes"></p>
+                </div>
+
+                <div class="doctor-footer">
+                    <p>Prescribed by: <strong id="doctorName">Dr.Joseph Vijay</strong></p>
+                    <p id="clinicName">Tamizhaga Vetri Kazhagam</p>
+                    <p id="prescDate" class="presc-date">Date: 10/5/2026</p>
+                </div>
+
+                <button id="completeSale" class="btn-primary">Mark as Dispensed</button>
+            </div>
+        </main>
+    </div>
+    <footer>
+        <p class="footer-note">Prototype phase 2.0.3 </p>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
