@@ -1,7 +1,7 @@
 :root {
-    --primary: #067020;
-    --primary-light: #185e08;
-    --bg-dark: #0f0c29;
+    --primary: #641f8b;
+    --primary-light: #7c11d3;
+    --bg-dark: #2814d6;
     --glass-bg: rgba(255, 255, 255, 0.05);
     --glass-border: rgba(255, 255, 255, 0.1);
     --text-main: #ffffff;
@@ -40,7 +40,7 @@ body {
 .blob {
     position: absolute;
     width: 300px;
-    height: 300px;
+    height: 500px;
     background: linear-gradient(45deg, var(--primary), var(--primary-light));
     filter: blur(80px);
     border-radius: 50%;
@@ -50,20 +50,23 @@ body {
 .blob-1 {
     top: -50px;
     left: -50px;
+    background: #0a72d3;
+    width: 900px;
+    height: 400px;
 }
 
 .blob-2 {
     bottom: -50px;
     right: -50px;
-    background: #602080;
+    background: #7a11db;
 }
 
 .blob-3 {
     top: 30%;
-    left: 40%;
-    width: 250px;
-    height: 250px;
-    background: #9d50bb;
+    left: 30%;
+    width: 600px;
+    height: 500px;
+    background: #2109ff;
 }
 
 .container {
@@ -145,13 +148,13 @@ h1 {
 }
 
 input {
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(37, 36, 36, 0.041);
     border: 1px solid var(--glass-border);
     border-radius: 12px;
     padding: 18px 25px;
-    color: white;
+    color: rgb(255, 255, 255);
     outline: none;
-    font-size: 1.2rem;
+    font-size: 1rem;
     width: 100%;
     transition: 0.3s;
 }
@@ -163,33 +166,34 @@ input::placeholder {
 }
 
 .btn-primary {
+    
     width: 100%;
     padding: 20px;
     border: none;
-    border-radius: 18px;
+    border-radius: 12px;
     background: linear-gradient(45deg, var(--primary), var(--primary-light));
     color: white;
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 500;
     cursor: pointer;
     transition: 0.3s;
 }
 
 .btn-primary:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 5px 15px rgba(35, 133, 5, 0.555);
+    transform: translateY(-9px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.767);
 }
 
 .btn-back {
     background: transparent;
     border: none;
-    color: var(--primary);
+    color: #fafafa;
     cursor: pointer;
     margin-bottom: 20px;
     font-size: 0.9rem;
 }
 
-/* Result Styles */
+/* Resulrt page */
 .prescription-header {
     text-align: center;
     margin-bottom: 25px;
@@ -214,26 +218,25 @@ input::placeholder {
 .notes-display {
     margin-bottom: 25px;
     padding: 15px;
-    background: rgba(157, 80, 187, 0.05);
+    background: rgba(157, 80, 187, 0.151);
     border-left: 3px solid var(--primary);
     border-radius: 0 12px 12px 0;
 }
 
 .notes-display h3 {
-    font-size: 0.8rem;
-    color: var(--primary);
-    text-transform: uppercase;
+    font-size: 0.9rem;
+    color: #d4c707;
     margin-bottom: 8px;
 }
 
 .notes-display p {
     font-size: 0.95rem;
-    font-style: italic;
+    font-style: normal;
     color: var(--text-main);
 }
 
 .med-card h4 {
-    color: var(--primary);
+    color: #06ff1af5;
     font-size: 1.1rem;
     margin-bottom: 5px;
 }
@@ -254,22 +257,22 @@ input::placeholder {
 
 .med-value {
     font-size: 0.95rem;
-    color: var(--text-main);
+    color: #ffffff;
     font-weight: 500;
 }
 
 .med-label {
-    color: rgba(255, 255, 255, 0.4);
-    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.562);
+    font-size: 0.8rem;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.8px;
     font-weight: 400;
 }
 
 .med-timing-tag {
-    background: rgba(0, 210, 255, 0.1) !important;
-    color: var(--primary) !important;
-    border: 1px solid rgba(0, 210, 255, 0.2);
+    background: rgba(0, 208, 255, 0) !important;
+    color: #57db68 !important;
+    border: 1px solid rgba(0, 208, 255, 0);
 }
 
 .doctor-footer {
@@ -292,7 +295,7 @@ input::placeholder {
 #reader__dashboard_section_csr button {
     background: var(--primary) !important;
     border: none !important;
-    border-radius: 8px !important;
+    border-radius: 10px !important;
     padding: 8px 15px !important;
     color: white !important;
     margin: 10px !important;
@@ -314,6 +317,7 @@ input::placeholder {
     body {
         align-items: flex-start;
         padding: 12px 12px env(safe-area-inset-bottom, 12px);
+        margin-top: 30%;
     }
 
     h1 {
@@ -360,16 +364,33 @@ footer {
     position: fixed;
     bottom: 0;
     width: 100%;
-    background: rgba(41, 3, 3, 0.144);
-    text-align: right;
-    padding: 1px 0 calc(1px + env(safe-area-inset-bottom, 0px));
-    border-top: 1px solid #00000011;
+    background: rgba(0, 0, 0, 0);
+    /* Changed to 80% opacity so you can see it */
+    text-align: center;
+    padding: 2px 0 calc(10px + env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid #00000000;
+    /* Made the border visible */
+    font-size: 14px;
+    line-height: 1.2;
 }
-
 .footer-note {
-    font-size: 0.7rem;
-    color: rgba(20, 211, 3, 0.863);
-    padding-right: 12px;
-
+    font-size: 12px;
+    /* Changed from 0.1px to something readable */
+    color: rgb(147, 158, 146);
+    padding-right: 20px;
+    display: inline-block;
+    /* Ensures padding and size apply correctly */
 }
 
+.version-badge {
+  position: fixed;
+  bottom: 5px;
+  right: 2px;
+  padding: 4px 8px;
+  color: #ffffff49;
+  font-family: monospace;
+  font-size: 12px;
+  z-index: 9999; /* Ensures it stays on top of other elements */
+  pointer-events: none; /* Allows clicks to pass through it */
+  user-select: none;
+}
