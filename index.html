@@ -4,85 +4,358 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#067020">
+    <meta name="theme-color" content="#0b132b">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="PharmaLink">
-    <meta name="description" content="Pharmacist prescription decryption portal">
+    <meta name="description" content="Secure clinical prescription verification and dispensing terminal">
     <link rel="manifest" href="manifest.json">
-    <title>PharmaLink | Pharmacist Portal</title>
+    <title>PharmaLink | Clinical Prescription Terminal</title>
+
+    <!-- Google Fonts: Plus Jakarta Sans (Headings), Inter (Body), JetBrains Mono (Technical/Data) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Stylesheets & Libraries -->
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script src="https://unpkg.com/html5-qrcode"></script>
 </head>
 
 <body>
-    <div class="background-blobs">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
-    </div>
+    <!-- Subtle architectural background grid -->
+    <div class="bg-grid-pattern" aria-hidden="true"></div>
+    <div class="bg-radial-glow" aria-hidden="true"></div>
 
-    <div class="container">
-        <header>
-            <div class="logo">
-                <span class="logo-icon"></span> <!--H1 logo -->
-                <h1>PharmaLink</h1>
+    <div class="app-wrapper">
+        <!-- Top Terminal Bar (Enterprise Pharmacy Station Info) -->
+        <header class="terminal-bar">
+            <div class="terminal-left">
+                <div class="brand-badge">
+                    <div class="brand-logo-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2v20M2 12h20"/>
+                            <rect x="4" y="4" width="16" height="16" rx="4"/>
+                        </svg>
+                    </div>
+                    <div class="brand-text">
+                        <span class="brand-title">PharmaLink<span class="brand-accent">Rx</span></span>
+                        <span class="brand-subtitle">Clinical Dispensation Gateway</span>
+                    </div>
+                </div>
             </div>
-            <p class="subtitle">Decrypting Module</p>
+
+            <div class="terminal-center">
+                <div class="security-chip">
+                    <span class="pulse-dot"></span>
+                    <span class="chip-label">AES-256 SECURE HANDSHAKE</span>
+                </div>
+            </div>
+
+            <div class="terminal-right">
+                <div class="terminal-meta">
+                    <div class="meta-item">
+                        <span class="meta-label">STATION</span>
+                        <span class="meta-value">DISP-04</span>
+                    </div>
+                    <div class="meta-divider"></div>
+                    <div class="meta-item">
+                        <span class="meta-label">SYSTEM TIME</span>
+                        <span class="meta-value" id="systemClock">--:--:-- UTC</span>
+                    </div>
+                </div>
+            </div>
         </header>
 
-        <main class="glass-card">
-            <div id="scannerSection" class="scanner-container">
-                <div id="reader"></div>
-                <div class="divider">
-                    <span>(OR)</span>
-                </div>
-                <div class="manual-entry">
-                    <input type="text" id="otpEntry" placeholder="Enter 5-digit OTP" maxlength="5">
-                    <button id="lookupBtn" class="btn-primary">View Prescription</button>
-                </div>
-            </div>
+        <!-- Main Content Area -->
+        <main class="main-container">
+            <!-- SECTION 1: SCANNER & VERIFICATION ENTRY -->
+            <section id="scannerSection" class="workspace-section" aria-label="Prescription Verification Terminal">
+                <div class="terminal-card">
+                    <div class="card-header">
+                        <div class="header-icon-group">
+                            <div class="icon-bubble">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/>
+                                    <rect x="7" y="7" width="10" height="10" rx="1"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h1 class="card-title">Prescription Verification</h1>
+                                <p class="card-desc">Scan patient QR code or input the 5-character authorization token.</p>
+                            </div>
+                        </div>
+                        <div class="status-badge" id="cameraStatusBadge">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                                <circle cx="12" cy="13" r="4"/>
+                            </svg>
+                            <span>CAMERA ACTIVE</span>
+                        </div>
+                    </div>
 
-            <div id="resultSection" style="display: none;">
-                <div class="prescription-header">
-                    <button id="backBtn" class="btn-back">← Back to Scanner</button>
-                    <h2 id="patientName">John Doe</h2>
-                    <p id="patientInfo">Age: 25 | Gender: Male</p>
+                    <div class="verification-grid">
+                        <!-- Left Column: High-Precision QR Scanner Viewfinder -->
+                        <div class="scanner-column">
+                            <div class="scanner-frame">
+                                <div class="viewfinder-corners">
+                                    <span class="corner top-left"></span>
+                                    <span class="corner top-right"></span>
+                                    <span class="corner bottom-left"></span>
+                                    <span class="corner bottom-right"></span>
+                                </div>
+                                <div class="scan-laser-line"></div>
+                                <div id="reader" class="scanner-viewport"></div>
+                            </div>
+                            <div class="scanner-hint">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <line x1="12" y1="16" x2="12" y2="12"/>
+                                    <line x1="12" y1="8" x2="12.01" y2="8"/>
+                                </svg>
+                                <span>Align the QR code from the electronic prescription within the viewfinder.</span>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Manual Alphanumeric Token Input -->
+                        <div class="manual-column">
+                            <div class="manual-box">
+                                <div class="box-title-row">
+                                    <h2 class="box-title">Manual Token Lookup</h2>
+                                    <span class="badge-subtle">5-CHAR OTP</span>
+                                </div>
+                                <p class="box-description">If the camera is unavailable or code is unreadable, enter the 5-character alphanumeric token printed on the prescription slip.</p>
+
+                                <form id="otpForm" class="otp-form" onsubmit="return false;">
+                                    <div class="otp-input-wrapper">
+                                        <label for="otpEntry" class="input-label">PRESCRIPTION TOKEN</label>
+                                        <div class="input-container">
+                                            <input type="text" id="otpEntry" class="otp-input" placeholder="e.g. 7X9K2" maxlength="5" autocomplete="off" spellcheck="false" aria-describedby="otpHelp">
+                                            <button type="button" id="clearOtpBtn" class="input-clear-btn" title="Clear input" aria-label="Clear input" style="display: none;">
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <line x1="18" y1="6" x2="6" y2="18"/>
+                                                    <line x1="6" y1="6" x2="18" y2="18"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <span id="otpHelp" class="input-hint">Case-insensitive. Auto-converts to uppercase.</span>
+                                    </div>
+
+                                    <button type="submit" id="lookupBtn" class="btn btn-primary btn-lg">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="11" cy="11" r="8"/>
+                                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                                        </svg>
+                                        <span>Decrypt & Retrieve Record</span>
+                                    </button>
+                                </form>
+
+                                <!-- Quick Test Presets (For Seamless Demonstration / Evaluation) -->
+                                <div class="quick-demo-section">
+                                    <span class="demo-title">DEMO TEST TOKENS</span>
+                                    <div class="demo-chips">
+                                        <button type="button" class="demo-chip" data-token="RX701" title="Load sample prescription RX701">RX701 (Cardiology)</button>
+                                        <button type="button" class="demo-chip" data-token="RX942" title="Load sample prescription RX942">RX942 (Infection)</button>
+                                        <button type="button" class="demo-chip" data-token="RX330" title="Load sample prescription RX330">RX330 (Endocrine)</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: DECRYPTED CLINICAL PRESCRIPTION RECORD -->
+            <section id="resultSection" class="workspace-section" aria-label="Decrypted Prescription Slip" style="display: none;">
+                <!-- Nav Back & Action Strip -->
+                <div class="action-nav-strip">
+                    <button id="backBtn" class="btn btn-outline btn-sm">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="19" y1="12" x2="5" y2="12"/>
+                            <polyline points="12 19 5 12 12 5"/>
+                        </svg>
+                        <span>Return to Scanner Terminal</span>
+                    </button>
+                    <div class="nav-actions">
+                        <button type="button" id="printBtn" class="btn btn-ghost btn-sm" title="Print Prescription Record">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 6 2 18 2 18 9"/>
+                                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+                                <rect x="6" y="14" width="12" height="8"/>
+                            </svg>
+                            <span>Print Slip</span>
+                        </button>
+                    </div>
                 </div>
 
-                <div class="medication-list" id="medsDisplay">
-                    <!-- Meds will be injected here -->
-                </div>
+                <!-- Structured Clinical Prescription Document -->
+                <article class="prescription-document">
+                    <!-- Prescription Header -->
+                    <div class="doc-header">
+                        <div class="doc-brand">
+                            <div class="rx-symbol">℞</div>
+                            <div>
+                                <h2 class="doc-title">Official Medical Prescription</h2>
+                                <span class="doc-subtitle">Verified Electronic Dispensing Order</span>
+                            </div>
+                        </div>
+                        <div class="doc-verification-seal">
+                            <div class="seal-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                    <polyline points="9 12 11 14 15 10"/>
+                                </svg>
+                            </div>
+                            <div class="seal-details">
+                                <span class="seal-status">AES-256 SIGNATURE VALID</span>
+                                <span class="seal-hash" id="rxHashToken">HASH: 4F9B...2E81</span>
+                            </div>
+                        </div>
+                    </div>
 
-                <div id="notesContainer" class="notes-display" style="display: none;">
-                    <h3>Notes from Doctor</h3>
-                    <p id="prescNotes"></p>
-                </div>
+                    <!-- Patient Demographics Banner -->
+                    <div class="patient-banner">
+                        <div class="patient-main">
+                            <div class="patient-avatar" aria-hidden="true">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="12" cy="7" r="4"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <span class="field-caption">PATIENT NAME</span>
+                                <h3 class="patient-name" id="patientName">--</h3>
+                            </div>
+                        </div>
+                        <div class="patient-vitals">
+                            <div class="vital-card">
+                                <span class="vital-label">AGE / SEX</span>
+                                <span class="vital-val" id="patientInfo">--</span>
+                            </div>
+                            <div class="vital-card">
+                                <span class="vital-label">STATUS</span>
+                                <span class="vital-badge verified">READY TO DISPENSE</span>
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="doctor-footer">
-                    <p>Prescribed by: <strong id="doctorName">Dr.Joseph Vijay</strong></p>
-                    <p id="clinicName">Tamizhaga Vetri Kazhagam</p>
-                    <p id="prescDate" class="presc-date">Date: 10/5/2026</p>
-                </div>
+                    <!-- Section: Prescribed Medications -->
+                    <div class="doc-section">
+                        <div class="section-title-bar">
+                            <h4 class="section-title">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/>
+                                    <path d="m8.5 8.5 7 7"/>
+                                </svg>
+                                <span>Prescribed Medications & Regimen</span>
+                            </h4>
+                            <span class="med-count-badge" id="medCountBadge">0 ITEMS</span>
+                        </div>
 
-                <button id="completeSale" class="btn-primary">Mark as Dispensed</button>
-            </div>
+                        <!-- Dynamic Medication List -->
+                        <div class="medication-grid" id="medsDisplay">
+                            <!-- Injected via JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Section: Clinical Notes & Instructions -->
+                    <div id="notesContainer" class="clinical-notes-card" style="display: none;">
+                        <div class="notes-header">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                                <line x1="16" y1="13" x2="8" y2="13"/>
+                                <line x1="16" y1="17" x2="8" y2="17"/>
+                            </svg>
+                            <h5>Doctor's Clinical Notes & Dietary Directives</h5>
+                        </div>
+                        <p id="prescNotes" class="notes-body"></p>
+                    </div>
+
+                    <!-- Doctor & Healthcare Institution Credentials -->
+                    <div class="doctor-credential-bar">
+                        <div class="doc-col">
+                            <span class="field-caption">PRESCRIBING PHYSICIAN</span>
+                            <strong class="doc-name" id="doctorName">--</strong>
+                        </div>
+                        <div class="doc-col">
+                            <span class="field-caption">CLINIC / HEALTH CENTER</span>
+                            <span class="clinic-name" id="clinicName">--</span>
+                        </div>
+                        <div class="doc-col">
+                            <span class="field-caption">ISSUANCE DATE</span>
+                            <span class="presc-date-val" id="prescDate">--</span>
+                        </div>
+                    </div>
+
+                    <!-- Dispense Execution Footer -->
+                    <div class="dispense-cta-bar">
+                        <div class="dispense-info">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            </svg>
+                            <span>Marking this order as dispensed will record this batch in the local pharmacy log.</span>
+                        </div>
+                        <button id="completeSale" class="btn btn-success btn-lg">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            <span>Verify & Mark as Dispensed</span>
+                        </button>
+                    </div>
+                </article>
+            </section>
         </main>
+
+        <!-- Professional Clinical Footer -->
+        <footer class="app-footer">
+            <div class="footer-inner">
+                <div class="footer-left">
+                    <span class="compliance-tag">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                        </svg>
+                        E-Prescription Standard Compliant
+                    </span>
+                    <span class="footer-copy">&copy; 2026 PharmaLink Inc. Dispensation Terminal Network.</span>
+                </div>
+                <div class="footer-right">
+                    <span class="system-status"><span class="status-indicator-green"></span> Gateway Connected</span>
+                    <span class="version-tag">Terminal Build v2.4.0</span>
+                </div>
+            </div>
+        </footer>
     </div>
-    <footer>
-       <div class="footer-container"></div>
-           <p>Made with 💜</p>
-        
-           <span class="footer-note">&copy; 2026 PharmaLink All rights reserved</span>
+
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- Dispensation Confirmation Modal -->
+    <div id="dispenseModal" class="modal-overlay" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-card">
+            <div class="modal-icon-header success">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                    <polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+            </div>
+            <h3 id="modalTitle" class="modal-title">Confirm Prescription Dispensation</h3>
+            <p class="modal-desc">Are you sure you want to finalize and record this prescription order? This confirms that all listed medications have been physically dispensed to the patient.</p>
+            <div class="modal-summary-box">
+                <div class="summary-line"><span>Patient:</span> <strong id="modalPatientName">--</strong></div>
+                <div class="summary-line"><span>Items:</span> <strong id="modalItemCount">--</strong></div>
+            </div>
+            <div class="modal-actions">
+                <button type="button" id="cancelDispenseBtn" class="btn btn-outline">Cancel</button>
+                <button type="button" id="confirmDispenseBtn" class="btn btn-success">Confirm Dispensed</button>
+            </div>
         </div>
-    </footer>
+    </div>
 
-    <div class="version-badge">v 0.8.7</div>
-
-    <!-- Firebase SDK -->
+    <!-- Firebase SDK (Compat Version) -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     <script src="script.js"></script>
