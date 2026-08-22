@@ -26,16 +26,16 @@ A prescription is created and encrypted on the client, then handed off using a s
 4. **Retrieve** — The pharmacist enters the OTP on their device, the API returns the matching payload, and it's decrypted locally for verification.
 
 ```
-Doctor (browser)  --encrypt+OTP-->  Flask API  --OTP lookup-->  Pharmacist (browser)
+Aurascript (browser)  --encrypt+OTP-->  Flask API  --OTP lookup-->  Pharmacist (browser)
 ```
 
 ## Features
 
-- 🔐 **Client-side encryption** — prescription data is encrypted before it ever leaves the browser.
-- 🔢 **OTP-based handoff** — no accounts, no logins; a short code is the only thing exchanged between clinic and pharmacy.
-- 📱 **Installable PWA** — ships with a web app manifest and service worker for an app-like, offline-friendly experience.
-- ⚡ **Minimal, dependency-light API** — a small Flask service with two routes, easy to read, easy to self-host.
-- 🌐 **CORS-restricted** — the API only accepts requests from GitHub Pages and local development origins by default.
+-  **Client-side encryption** — prescription data is encrypted before it ever leaves the browser.
+-  **OTP-based handoff** — no accounts, no logins; a short code is the only thing exchanged between clinic and pharmacy.
+-  **Installable PWA** — ships with a web app manifest and service worker for an app-like, offline-friendly experience.
+-  **Minimal, dependency-light API** — a small Flask service with two routes, easy to read, easy to self-host.
+-  **CORS-restricted** — the API only accepts requests from GitHub Pages and local development origins by default.
 
 ## Tech Stack
 
