@@ -1,4 +1,4 @@
-# 💊 PharmaLink
+# PharmaLink
 
 **A lightweight, OTP-based bridge for handing off digital prescriptions between clinic and pharmacy.**
 
