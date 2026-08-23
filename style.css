@@ -56,8 +56,8 @@
     /* Radii */
     --radius-sm: 6px;
     --radius-md: 10px;
-    --radius-lg: 16px;
-    --radius-xl: 20px;
+    --radius-lg: 12px;
+    --radius-xl: 12px;
     --radius-full: 9999px;
 
     /* Motion Curves */
@@ -134,7 +134,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 14px 20px;
+    padding: 17px 20px;
     background: var(--bg-surface);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-lg);
@@ -148,10 +148,10 @@ body {
     align-items: center;
 }
 
-.brand-badge {
+/*.brand-badge {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 15px;
 }
 
 .brand-logo-icon {
@@ -164,7 +164,7 @@ body {
     align-items: center;
     justify-content: center;
     box-shadow: 0 2px 8px rgba(13, 148, 136, 0.35);
-}
+} */
 
 .brand-text {
     display: flex;
@@ -187,11 +187,12 @@ body {
 }
 
 .brand-subtitle {
-    font-size: 0.72rem;
-    font-weight: 500;
+    font-size: 0.70rem;
+    font-weight: 300;
     color: var(--text-secondary);
-    letter-spacing: 0.04em;
+    letter-spacing: 0.01em;
     text-transform: uppercase;
+    margin-top: 0.5rem
 }
 
 .terminal-center {
@@ -200,33 +201,17 @@ body {
 }
 
 .security-chip {
-    display: inline-flex;
-    align-items: center;
+    display: flex;
+    align-items: column;
     gap: 8px;
-    background: rgba(13, 148, 136, 0.08);
-    border: 1px solid var(--border-accent);
-    padding: 6px 14px;
-    border-radius: var(--radius-full);
 }
 
-.pulse-dot {
-    width: 7px;
-    height: 7px;
-    background-color: var(--emerald-400);
-    border-radius: 50%;
-    box-shadow: 0 0 8px var(--emerald-400);
-    animation: pulse-ring 2s infinite ease-in-out;
-}
 
-@keyframes pulse-ring {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.35); opacity: 0.6; }
-}
 
 .chip-label {
     font-family: var(--font-mono);
     font-size: 0.72rem;
-    font-weight: 600;
+    font-weight: 900;
     color: var(--teal-400);
     letter-spacing: 0.05em;
 }
@@ -240,10 +225,8 @@ body {
     display: flex;
     align-items: center;
     gap: 16px;
-    background: var(--bg-input);
     padding: 6px 14px;
     border-radius: var(--radius-md);
-    border: 1px solid var(--border-subtle);
 }
 
 .meta-item {
@@ -265,11 +248,11 @@ body {
     font-weight: 600;
     color: var(--text-primary);
 }
-
+/* ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────Time pakathula iruka column ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────*/
 .meta-divider {
     width: 1px;
     height: 22px;
-    background-color: var(--border-subtle);
+    background-color: #EBEEF0;
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -289,7 +272,7 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Terminal Card (Primary Container) */
+/* Terminal Card (Primary Container) =================================== NEEDS SOME CHANGE 5*/
 .terminal-card {
     background: var(--bg-surface);
     border: 1px solid var(--border-subtle);
@@ -297,6 +280,7 @@ body {
     padding: 28px 32px;
     box-shadow: var(--shadow-lg);
     position: relative;
+    margin-top: 1.9em
 }
 
 .card-header {
@@ -315,18 +299,7 @@ body {
     gap: 16px;
 }
 
-.icon-bubble {
-    width: 44px;
-    height: 44px;
-    background: rgba(13, 148, 136, 0.1);
-    color: var(--teal-400);
-    border: 1px solid var(--border-accent);
-    border-radius: var(--radius-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
+
 
 .card-title {
     font-family: var(--font-heading);
@@ -340,23 +313,9 @@ body {
 .card-desc {
     font-size: 0.88rem;
     color: var(--text-secondary);
-    margin-top: 2px;
+    margin-top: 9px;
 }
 
-.status-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
-    border-radius: var(--radius-full);
-    background: rgba(16, 185, 129, 0.1);
-    border: 1px solid rgba(16, 185, 129, 0.25);
-    color: var(--emerald-400);
-    font-size: 0.72rem;
-    font-family: var(--font-mono);
-    font-weight: 600;
-    letter-spacing: 0.04em;
-}
 
 /* ─────────────────────────────────────────────────────────────────────────────
    VERIFICATION GRID (SCANNER + MANUAL OTP)
@@ -466,14 +425,13 @@ body {
     flex-shrink: 0;
 }
 
-/* Right: Manual Token Column */
+/* Right: Manual Token Column ======================================SAME NEED CHANGE 5*/
 .manual-column {
     display: flex;
     flex-direction: column;
 }
 
 .manual-box {
-    background: var(--bg-surface-elevated);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-lg);
     padding: 24px;
@@ -501,10 +459,7 @@ body {
     font-size: 0.68rem;
     font-weight: 600;
     color: var(--text-secondary);
-    background: var(--bg-input);
-    border: 1px solid var(--border-subtle);
-    padding: 2px 8px;
-    border-radius: var(--radius-sm);
+    margin-bottom: 1.3em
 }
 
 .box-description {
@@ -528,7 +483,6 @@ body {
 }
 
 .input-label {
-    font-family: var(--font-mono);
     font-size: 0.72rem;
     font-weight: 600;
     color: var(--text-secondary);
@@ -548,7 +502,6 @@ body {
     border-radius: var(--radius-md);
     padding: 14px 44px 14px 18px;
     color: #ffffff;
-    font-family: var(--font-mono);
     font-size: 1.35rem;
     font-weight: 600;
     letter-spacing: 0.25em;
@@ -625,7 +578,6 @@ body {
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-sm);
     padding: 6px 10px;
-    font-family: var(--font-mono);
     font-size: 0.74rem;
     color: var(--text-secondary);
     cursor: pointer;
@@ -1499,4 +1451,3 @@ body {
         text-shadow: none !important;
     }
 }
-
