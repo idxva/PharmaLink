@@ -22,13 +22,13 @@ const secretKey = "AuraScript_Secret_Key";
 const DEMO_PRESCRIPTIONS = {
     "RX701": {
         patient: {
-            name: "Eleanor Vance",
-            age: "58",
-            gender: "Female"
+            name: "Jagan",
+            age: "20",
+            gender: "Male"
         },
         doctor: {
-            name: "Dr. Arthur Pendelton, MD",
-            clinic: "St. Jude Heart & Vascular Institute"
+            name: "Dr. Anirudh, MD",
+            clinic: "Greenwood Family Health Clinic"
         },
         timestamp: "2026-08-22 14:30 EST",
         medications: [
@@ -55,13 +55,13 @@ const DEMO_PRESCRIPTIONS = {
     },
     "RX942": {
         patient: {
-            name: "Marcus Thorne",
-            age: "34",
+            name: "Arun Kumar",
+            age: "21",
             gender: "Male"
         },
         doctor: {
-            name: "Dr. Elena Rostova, MD",
-            clinic: "Memorial Acute Care Center"
+            name: "Dr. Mahalakshmi, MD",
+            clinic: "Lovefield Medical Center"
         },
         timestamp: "2026-08-22 10:15 EST",
         medications: [
@@ -82,12 +82,12 @@ const DEMO_PRESCRIPTIONS = {
     },
     "RX330": {
         patient: {
-            name: "Sophia Chen",
-            age: "42",
-            gender: "Female"
+            name: "Jeeva",
+            age: "19",
+            gender: "Male"
         },
         doctor: {
-            name: "Dr. Vikram Patel, MD",
+            name: "Dr. Rohit Sharma, MD",
             clinic: "Metropolitan Endocrine & Diabetes Care"
         },
         timestamp: "2026-08-22 11:45 EST",
