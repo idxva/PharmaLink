@@ -111,18 +111,65 @@ const DEMO_PRESCRIPTIONS = {
     }
 };
 
-// Seed demo prescriptions into AES encrypted local store for instant demo offline access
-try {
-    Object.keys(DEMO_PRESCRIPTIONS).forEach(token => {
-        const encrypted = CryptoJS.AES.encrypt(JSON.stringify(DEMO_PRESCRIPTIONS[token]), secretKey).toString();
-        localStorage.setItem(`aura_${token}`, encrypted);
-    });
-} catch (e) {
-    console.warn("Could not seed local store demo tokens", e);
-}
+// ─── Immediate Seeding of Demo Prescriptions (Runs on Script Load) ────────────
+// This runs immediately when the script loads, ensuring demo data is available offline
+(function seedDemoData() {
+    const MAX_RETRIES = 10;
+    let retryCount = 0;
+    
+    function attemptSeed() {
+        retryCount++;
+        if (typeof CryptoJS !== 'undefined' && CryptoJS.AES) {
+            try {
+                Object.keys(DEMO_PRESCRIPTIONS).forEach(token => {
+                    const encrypted = CryptoJS.AES.encrypt(JSON.stringify(DEMO_PRESCRIPTIONS[token]), secretKey).toString();
+                    localStorage.setItem(`aura_${token}`, encrypted);
+                });
+                console.log('[SEEDING] ✓ Demo prescriptions seeded to localStorage:', Object.keys(DEMO_PRESCRIPTIONS));
+                return true;
+            } catch (e) {
+                console.error("[SEEDING] Encryption error:", e.message);
+                return false;
+            }
+        } else if (retryCount < MAX_RETRIES) {
+            console.log(`[SEEDING] Attempt ${retryCount}: CryptoJS not available, retrying...`);
+            setTimeout(attemptSeed, 50);
+            return false;
+        } else {
+            console.warn('[SEEDING] CryptoJS still not available after max retries');
+            return false;
+        }
+    }
+    
+    attemptSeed();
+})();
 
 // ─── DOM Controller & Application Flow ────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
+    // Verify seeding worked; re-seed if needed
+    try {
+        if (typeof CryptoJS !== 'undefined' && CryptoJS.AES) {
+            const storedCount = Object.keys(DEMO_PRESCRIPTIONS).filter(token => 
+                localStorage.getItem(`aura_${token}`) !== null
+            ).length;
+            const expectedCount = Object.keys(DEMO_PRESCRIPTIONS).length;
+            
+            if (storedCount < expectedCount) {
+                console.log(`[DOMContentLoaded] Re-seeding: ${storedCount}/${expectedCount} prescriptions found`);
+                Object.keys(DEMO_PRESCRIPTIONS).forEach(token => {
+                    if (!localStorage.getItem(`aura_${token}`)) {
+                        const encrypted = CryptoJS.AES.encrypt(JSON.stringify(DEMO_PRESCRIPTIONS[token]), secretKey).toString();
+                        localStorage.setItem(`aura_${token}`, encrypted);
+                    }
+                });
+            } else {
+                console.log('[DOMContentLoaded] ✓ All demo prescriptions confirmed in localStorage');
+            }
+        }
+    } catch (e) {
+        console.warn("[DOMContentLoaded] Seeding verification error:", e);
+    }
+
     // Elements
     const scannerSection = document.getElementById('scannerSection');
     const resultSection = document.getElementById('resultSection');
@@ -282,36 +329,49 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Try Firestore first, then fallback to localStorage or DEMO records
-        db.collection('prescriptions').doc(otp).get()
-            .then(doc => {
-                restoreBtn();
-                if (doc.exists) {
-                    decryptAndDisplay(doc.data().data, otp);
-                } else {
+        try {
+            db.collection('prescriptions').doc(otp).get()
+                .then(doc => {
+                    restoreBtn();
+                    if (doc.exists) {
+                        console.log("Found prescription in Firestore for:", otp);
+                        decryptAndDisplay(doc.data().data, otp);
+                    } else {
+                        console.log("Prescription not in Firestore, checking local fallback for:", otp);
+                        fallbackLocalLookup(otp);
+                    }
+                })
+                .catch(err => {
+                    restoreBtn();
+                    console.warn("Firestore lookup failed, using local fallback:", err);
                     fallbackLocalLookup(otp);
-                }
-            })
-            .catch(() => {
-                restoreBtn();
-                fallbackLocalLookup(otp);
-            });
+                });
+        } catch (err) {
+            restoreBtn();
+            console.warn("Error in processOTP, using local fallback:", err);
+            fallbackLocalLookup(otp);
+        }
     }
 
     function fallbackLocalLookup(otp) {
+        // Try encrypted localStorage first
         const encryptedData = localStorage.getItem(`aura_${otp}`);
         if (encryptedData) {
+            console.log("Found encrypted prescription in localStorage for:", otp);
             decryptAndDisplay(encryptedData, otp);
             return;
         }
 
         // Check in memory DEMO_PRESCRIPTIONS directly
         if (DEMO_PRESCRIPTIONS[otp]) {
+            console.log("Loading demo prescription for:", otp);
             displayPrescription(DEMO_PRESCRIPTIONS[otp], otp);
             showToast("Record loaded from verified local dispensary store.", "success");
             return;
         }
 
         showToast("Prescription not found for token: " + otp + ". Verify code or test with demo preset.", "error");
+        console.warn("Token not found in localStorage or DEMO_PRESCRIPTIONS:", otp);
         if (html5QrcodeScanner) startScanner();
     }
 
