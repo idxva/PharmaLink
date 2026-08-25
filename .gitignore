@@ -1,0 +1,12 @@
+# Local Firebase config (contains the real API key) — never commit this
+firebase-config.js
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.env
+
+# Editor/OS cruft
+.DS_Store
+.vscode/

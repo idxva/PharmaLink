@@ -95,6 +95,20 @@ python -m http.server 8080
 
 Then open `http://localhost:8080` in your browser. Update the API base URL in `script.js` if you're not running the backend on `localhost:5000`.
 
+### 4. Configure Firebase
+
+The Firebase Web SDK config (including its `apiKey`) is loaded from `firebase-config.js`, which is **gitignored** and not committed:
+
+```bash
+cp firebase-config.example.js firebase-config.js
+```
+
+Fill in `firebase-config.js` with your project's values from the Firebase console (Project settings → General → Your apps). `index.html` loads this file before `script.js`.
+
+> A Firebase Web `apiKey` isn't a traditional secret — Google's docs note it just identifies which project a client request belongs to. The actual access control comes from **Firestore Security Rules** and, optionally, **HTTP referrer restrictions** on the key in the Google Cloud Console. Keeping the key out of the committed source is still good hygiene (it avoids noisy secret-scanner alerts and makes rotation easier), but double-check your Firestore rules aren't left as `allow read, write: if true`.
+
+For the live GitHub Pages deployment, `firebase-config.js` is generated automatically at deploy time by `.github/workflows/deploy.yml` from repository secrets (`FIREBASE_API_KEY`, `FIREBASE_AUTH_DOMAIN`, `FIREBASE_PROJECT_ID`, `FIREBASE_STORAGE_BUCKET`, `FIREBASE_MESSAGING_SENDER_ID`, `FIREBASE_APP_ID`) — set these under **Settings → Secrets and variables → Actions**.
+
 ## API Reference
 
 | Method | Endpoint | Description |

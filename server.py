@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory, send_file
 from flask_cors import CORS
 import os
 import sys
@@ -7,7 +7,10 @@ import sys
 if sys.platform == 'win32':
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
-app = Flask(__name__)
+# Get the directory where this script is located
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+app = Flask(__name__, static_folder=BASE_DIR, static_url_path='')
 
 # Allow requests from GitHub Pages and localhost
 CORS(app, origins=[
@@ -46,6 +49,22 @@ def get_prescription():
         return jsonify({'error': 'Not found'}), 404
     print(f"[GET]  OTP={otp}", flush=True)
     return jsonify({'data': prescriptions[otp]})
+
+# --- Static Files & Root Route ---
+@app.route('/')
+def serve_index():
+    return send_file(os.path.join(BASE_DIR, 'index.html'), mimetype='text/html')
+
+@app.route('/<path:filename>')
+def serve_static(filename):
+    """Serve static files from the base directory"""
+    file_path = os.path.join(BASE_DIR, filename)
+    # Prevent directory traversal attacks
+    if not os.path.abspath(file_path).startswith(os.path.abspath(BASE_DIR)):
+        return jsonify({'error': 'Forbidden'}), 403
+    if os.path.isfile(file_path):
+        return send_file(file_path)
+    return jsonify({'error': 'Not found'}), 404
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
