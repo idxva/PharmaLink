@@ -1,12 +1,14 @@
 // ─── Firebase Configuration ──────────────────────────────────────────────────
-const firebaseConfig = {
-    apiKey: "AIzaSyBjckGgFPBnI7h5xAscpoddbzthZb_C-ng",
-    authDomain: "pharmalink-75382.firebaseapp.com",
-    projectId: "pharmalink-75382",
-    storageBucket: "pharmalink-75382.firebasestorage.app",
-    messagingSenderId: "907666198541",
-    appId: "1:907666198541:web:55b6401e1a8f036c0e8544"
-};
+// The real config now lives in firebase-config.js, which is gitignored and
+// loaded via <script> BEFORE this file (see index.html). Never hardcode
+// keys directly in a file that gets committed to a public repo.
+if (typeof window.firebaseConfig === "undefined") {
+    console.error(
+        "firebase-config.js is missing. Copy firebase-config.example.js to " +
+        "firebase-config.js and fill in your project's values (see README)."
+    );
+}
+const firebaseConfig = window.firebaseConfig || {};
 
 // Initialize Firebase (Compat SDK)
 try {
