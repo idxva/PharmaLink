@@ -58,13 +58,10 @@ def serve_index():
 @app.route('/<path:filename>')
 def serve_static(filename):
     """Serve static files from the base directory"""
-    file_path = os.path.join(BASE_DIR, filename)
-    # Prevent directory traversal attacks
-    if not os.path.abspath(file_path).startswith(os.path.abspath(BASE_DIR)):
-        return jsonify({'error': 'Forbidden'}), 403
-    if os.path.isfile(file_path):
-        return send_file(file_path)
-    return jsonify({'error': 'Not found'}), 404
+    try:
+        return send_from_directory(BASE_DIR, filename)
+    except Exception:
+        return jsonify({'error': 'Not found'}), 404
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
