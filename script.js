@@ -1,24 +1,52 @@
-// ─── Firebase Configuration ──────────────────────────────────────────────────
-// The real config now lives in firebase-config.js, which is gitignored and
-// loaded via <script> BEFORE this file (see index.html). Never hardcode
-// keys directly in a file that gets committed to a public repo.
+// ============================================================================
+// SECURE FIREBASE INITIALIZATION - CREDENTIALS FROM ENV
+// ============================================================================
+// The firebase-config.js file is loaded via <script> tag in index.html BEFORE this file
+// It loads credentials from:
+// 1. Environment variables (GitHub Actions for deployment)
+// 2. .env file (local development)
+// 3. firebase-config.js (fallback)
+// 
+// Never hardcode credentials directly in this file!
+// ============================================================================
+
 if (typeof window.firebaseConfig === "undefined") {
     console.error(
-        "firebase-config.js is missing. Copy firebase-config.example.js to " +
-        "firebase-config.js and fill in your project's values (see README)."
+        "❌ CRITICAL: firebase-config.js is missing or not loaded. " +
+        "\n📝 Setup Instructions:" +
+        "\n1. Copy firebase-config-template.js to firebase-config.js" +
+        "\n2. Add your Firebase credentials from Firebase Console" +
+        "\n3. Add 'firebase-config.js' to .gitignore" +
+        "\n4. Reload the page"
     );
+    throw new Error("Firebase configuration not found");
 }
-const firebaseConfig = window.firebaseConfig || {};
+
+const firebaseConfig = window.firebaseConfig;
+
+// Validate configuration has required fields
+const requiredFields = ['apiKey', 'authDomain', 'projectId', 'storageBucket', 'messagingSenderId', 'appId'];
+const missingFields = requiredFields.filter(field => !firebaseConfig[field] || firebaseConfig[field].includes('REPLACE'));
+
+if (missingFields.length > 0) {
+    console.error(`❌ Missing Firebase config fields: ${missingFields.join(', ')}`);
+    throw new Error(`Firebase configuration incomplete: ${missingFields.join(', ')}`);
+}
 
 // Initialize Firebase (Compat SDK)
 try {
     firebase.initializeApp(firebaseConfig);
+    console.log('✅ Firebase initialized successfully');
 } catch (e) {
-    console.warn("Firebase initialization warning:", e);
+    console.error("❌ Firebase initialization failed:", e);
+    throw e;
 }
+
 const db = firebase.firestore();
 
-// ─── Preset Clinical Demonstration Records (Offline Fallback & Demo) ──────────
+// ============================================================================
+// PRESET CLINICAL DEMONSTRATION RECORDS (Offline Fallback & Demo)
+// ============================================================================
 const secretKey = "AuraScript_Secret_Key";
 
 const DEMO_PRESCRIPTIONS = {
@@ -111,8 +139,9 @@ const DEMO_PRESCRIPTIONS = {
     }
 };
 
-// ─── Immediate Seeding of Demo Prescriptions (Runs on Script Load) ────────────
-// This runs immediately when the script loads, ensuring demo data is available offline
+// ============================================================================
+// IMMEDIATE SEEDING OF DEMO PRESCRIPTIONS (Offline Fallback)
+// ============================================================================
 (function seedDemoData() {
     const MAX_RETRIES = 10;
     let retryCount = 0;
@@ -125,18 +154,18 @@ const DEMO_PRESCRIPTIONS = {
                     const encrypted = CryptoJS.AES.encrypt(JSON.stringify(DEMO_PRESCRIPTIONS[token]), secretKey).toString();
                     localStorage.setItem(`aura_${token}`, encrypted);
                 });
-                console.log('[SEEDING] ✓ Demo prescriptions seeded to localStorage:', Object.keys(DEMO_PRESCRIPTIONS));
+                console.log('✅ Demo prescriptions seeded to localStorage:', Object.keys(DEMO_PRESCRIPTIONS));
                 return true;
             } catch (e) {
-                console.error("[SEEDING] Encryption error:", e.message);
+                console.error("❌ Encryption error:", e.message);
                 return false;
             }
         } else if (retryCount < MAX_RETRIES) {
-            console.log(`[SEEDING] Attempt ${retryCount}: CryptoJS not available, retrying...`);
+            console.log(`⏳ Attempt ${retryCount}/${MAX_RETRIES}: CryptoJS not available, retrying...`);
             setTimeout(attemptSeed, 50);
             return false;
         } else {
-            console.warn('[SEEDING] CryptoJS still not available after max retries');
+            console.warn('⚠️ CryptoJS still not available after max retries');
             return false;
         }
     }
@@ -144,7 +173,9 @@ const DEMO_PRESCRIPTIONS = {
     attemptSeed();
 })();
 
-// ─── DOM Controller & Application Flow ────────────────────────────────────────
+// ============================================================================
+// DOM CONTROLLER & APPLICATION FLOW
+// ============================================================================
 document.addEventListener('DOMContentLoaded', () => {
     // Verify seeding worked; re-seed if needed
     try {
@@ -155,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const expectedCount = Object.keys(DEMO_PRESCRIPTIONS).length;
             
             if (storedCount < expectedCount) {
-                console.log(`[DOMContentLoaded] Re-seeding: ${storedCount}/${expectedCount} prescriptions found`);
+                console.log(`⏳ Re-seeding: ${storedCount}/${expectedCount} prescriptions found`);
                 Object.keys(DEMO_PRESCRIPTIONS).forEach(token => {
                     if (!localStorage.getItem(`aura_${token}`)) {
                         const encrypted = CryptoJS.AES.encrypt(JSON.stringify(DEMO_PRESCRIPTIONS[token]), secretKey).toString();
@@ -163,11 +194,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 });
             } else {
-                console.log('[DOMContentLoaded] ✓ All demo prescriptions confirmed in localStorage');
+                console.log('✅ All demo prescriptions confirmed in localStorage');
             }
         }
     } catch (e) {
-        console.warn("[DOMContentLoaded] Seeding verification error:", e);
+        console.warn("⚠️ Seeding verification error:", e);
     }
 
     // Elements
@@ -337,21 +368,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(doc => {
                     restoreBtn();
                     if (doc.exists) {
-                        console.log("Found prescription in Firestore for:", otp);
+                        console.log("✅ Found prescription in Firestore for:", otp);
                         decryptAndDisplay(doc.data().data, otp);
                     } else {
-                        console.log("Prescription not in Firestore, checking local fallback for:", otp);
+                        console.log("⏳ Prescription not in Firestore, checking local fallback for:", otp);
                         fallbackLocalLookup(otp);
                     }
                 })
                 .catch(err => {
                     restoreBtn();
-                    console.warn("Firestore lookup failed, using local fallback:", err);
+                    console.warn("⚠️ Firestore lookup failed, using local fallback:", err);
                     fallbackLocalLookup(otp);
                 });
         } catch (err) {
             restoreBtn();
-            console.warn("Error in processOTP, using local fallback:", err);
+            console.warn("⚠️ Error in processOTP, using local fallback:", err);
             fallbackLocalLookup(otp);
         }
     }
@@ -360,21 +391,21 @@ document.addEventListener('DOMContentLoaded', () => {
         // Try encrypted localStorage first
         const encryptedData = localStorage.getItem(`aura_${otp}`);
         if (encryptedData) {
-            console.log("Found encrypted prescription in localStorage for:", otp);
+            console.log("✅ Found encrypted prescription in localStorage for:", otp);
             decryptAndDisplay(encryptedData, otp);
             return;
         }
 
         // Check in memory DEMO_PRESCRIPTIONS directly
         if (DEMO_PRESCRIPTIONS[otp]) {
-            console.log("Loading demo prescription for:", otp);
+            console.log("✅ Loading demo prescription for:", otp);
             displayPrescription(DEMO_PRESCRIPTIONS[otp], otp);
             showToast("Record loaded from verified local dispensary store.", "success");
             return;
         }
 
         showToast("Prescription not found for token: " + otp + ". Verify code or test with demo preset.", "error");
-        console.warn("Token not found in localStorage or DEMO_PRESCRIPTIONS:", otp);
+        console.warn("❌ Token not found in localStorage or DEMO_PRESCRIPTIONS:", otp);
         if (html5QrcodeScanner) startScanner();
     }
 
@@ -388,7 +419,7 @@ document.addEventListener('DOMContentLoaded', () => {
             displayPrescription(decryptedData, otpToken);
             showToast("Prescription decrypted & authenticated successfully.", "success");
         } catch (e) {
-            console.error("Decryption failed:", e);
+            console.error("❌ Decryption failed:", e);
             showToast("Decryption failed. Signature mismatch or corrupted token.", "error");
         }
     }
@@ -560,7 +591,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // ── Write to Firestore dispenseLogs collection ────────────────────
             db.collection('dispenseLogs').add(logEntry)
                 .then((docRef) => {
-                    console.log('[DISPENSE] ✓ Log archived to Firestore:', docRef.id, logEntry);
+                    console.log('✅ Log archived to Firestore:', docRef.id, logEntry);
                     dispenseModal.style.display = 'none';
                     restoreConfirmBtn();
                     showToast(
@@ -570,7 +601,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     setTimeout(() => { backBtn.click(); }, 900);
                 })
                 .catch((err) => {
-                    console.error('[DISPENSE] Firestore write failed:', err);
+                    console.error('❌ Firestore write failed:', err);
                     restoreConfirmBtn();
                     // Still close modal & navigate back, but warn the user
                     dispenseModal.style.display = 'none';
@@ -611,4 +642,3 @@ if ('serviceWorker' in navigator) {
             .catch(err => console.warn('SW registration info:', err));
     });
 }
-
