@@ -4,86 +4,86 @@
    ───────────────────────────────────────────────────────────────────────────── */
 
 :root {
-    /* Paper & Surface */
-    --bg-base:              #F2EDE4;
-    --bg-surface:           #EDE8DF;
-    --bg-surface-elevated:  #E5DFD5;
-    --bg-surface-highlight: #DDD7CC;
-    --bg-input:             #EAE4DB;
+    /* Surface — clean, cool white */
+    --bg-base:              #F7F8FA;
+    --bg-surface:           #FFFFFF;
+    --bg-surface-elevated:  #F1F3F5;
+    --bg-surface-highlight: #E9ECEF;
+    --bg-input:             #F1F3F5;
 
     /* Ink */
-    --ink-primary:   #1C1917;
-    --ink-secondary: #57534E;
-    --ink-tertiary:  #A8A29E;
-    --ink-inverse:   #F2EDE4;
+    --ink-primary:   #111827;
+    --ink-secondary: #4B5563;
+    --ink-tertiary:  #9CA3AF;
+    --ink-inverse:   #FFFFFF;
 
-    /* Accent — single, unmixed vermillion */
-    --accent:         #B5451B;
-    --accent-hover:   #9A3A16;
-    --accent-muted:   rgba(181, 69, 27, 0.08);
-    --accent-border:  rgba(181, 69, 27, 0.30);
+    /* Accent — deep indigo-blue, professional */
+    --accent:         #4F46E5;
+    --accent-hover:   #4338CA;
+    --accent-muted:   rgba(79, 70, 229, 0.07);
+    --accent-border:  rgba(79, 70, 229, 0.25);
 
-    /* Semantic — muted, non-glowing */
-    --success:        #2D6A4F;
-    --success-muted:  rgba(45, 106, 79, 0.09);
-    --success-border: rgba(45, 106, 79, 0.28);
+    /* Semantic */
+    --success:        #059669;
+    --success-muted:  rgba(5, 150, 105, 0.08);
+    --success-border: rgba(5, 150, 105, 0.22);
 
-    --warning:        #92400E;
-    --warning-muted:  rgba(146, 64, 14, 0.07);
-    --warning-border: rgba(146, 64, 14, 0.25);
+    --warning:        #D97706;
+    --warning-muted:  rgba(217, 119, 6, 0.07);
+    --warning-border: rgba(217, 119, 6, 0.22);
 
-    --error:          #991B1B;
-    --error-muted:    rgba(153, 27, 27, 0.08);
-    --error-border:   rgba(153, 27, 27, 0.25);
+    --error:          #DC2626;
+    --error-muted:    rgba(220, 38, 38, 0.07);
+    --error-border:   rgba(220, 38, 38, 0.22);
 
-    /* Legacy aliases — kept for any JS-injected content referencing them */
-    --teal-400:    #B5451B;
-    --teal-500:    #9A3A16;
-    --teal-600:    #7C2E11;
-    --teal-glow:   rgba(181, 69, 27, 0.08);
-    --teal-300:    #B5451B;
-    --emerald-400: #2D6A4F;
-    --emerald-500: #2D6A4F;
-    --emerald-bg:  rgba(45, 106, 79, 0.09);
-    --amber-500:   #92400E;
-    --amber-bg:    rgba(146, 64, 14, 0.07);
-    --rose-500:    #991B1B;
-    --rose-bg:     rgba(153, 27, 27, 0.08);
-    --border-subtle:  rgba(28, 25, 23, 0.14);
-    --border-medium:  rgba(28, 25, 23, 0.25);
-    --border-accent:  rgba(181, 69, 27, 0.30);
-    --text-primary:   #1C1917;
-    --text-secondary: #57534E;
-    --text-tertiary:  #A8A29E;
-    --text-inverse:   #F2EDE4;
+    /* Legacy aliases */
+    --teal-400:    #4F46E5;
+    --teal-500:    #4338CA;
+    --teal-600:    #3730A3;
+    --teal-glow:   rgba(79, 70, 229, 0.07);
+    --teal-300:    #4F46E5;
+    --emerald-400: #059669;
+    --emerald-500: #059669;
+    --emerald-bg:  rgba(5, 150, 105, 0.08);
+    --amber-500:   #D97706;
+    --amber-bg:    rgba(217, 119, 6, 0.07);
+    --rose-500:    #DC2626;
+    --rose-bg:     rgba(220, 38, 38, 0.07);
+    --border-subtle:  rgba(0, 0, 0, 0.06);
+    --border-medium:  rgba(0, 0, 0, 0.12);
+    --border-accent:  rgba(79, 70, 229, 0.25);
+    --text-primary:   #111827;
+    --text-secondary: #4B5563;
+    --text-tertiary:  #9CA3AF;
+    --text-inverse:   #FFFFFF;
 
-    /* Rules & Borders — hairlines */
-    --border:        rgba(28, 25, 23, 0.14);
-    --border-strong: rgba(28, 25, 23, 0.32);
-    --border-focus:  #B5451B;
+    /* Borders */
+    --border:        rgba(0, 0, 0, 0.08);
+    --border-strong: rgba(0, 0, 0, 0.15);
+    --border-focus:  #4F46E5;
 
     /* Typography */
     --font-heading: 'Playfair Display', 'Georgia', 'Times New Roman', serif;
     --font-body:    'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     --font-mono:    'IBM Plex Mono', 'Courier New', monospace;
 
-    /* Elevation — no glow, just shadow depth */
-    --shadow-sm: 0 1px 3px rgba(28, 25, 23, 0.10);
-    --shadow-md: 0 3px 10px rgba(28, 25, 23, 0.12);
-    --shadow-lg: 0 8px 24px rgba(28, 25, 23, 0.14);
+    /* Elevation — modern soft diffused shadows */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.10), 0 2px 6px rgba(0, 0, 0, 0.04);
 
-    /* Geometry — clinical form aesthetic */
-    --radius-sm:   2px;
-    --radius-md:   2px;
-    --radius-lg:   2px;
-    --radius-xl:   2px;
-    --radius-full: 2px;
+    /* Geometry — polished, rounded */
+    --radius-sm:   6px;
+    --radius-md:   10px;
+    --radius-lg:   14px;
+    --radius-xl:   18px;
+    --radius-full: 9999px;
 
-    /* Motion — crossfade only, no spring, no bounce */
-    --ease-out-expo:     ease;
-    --transition-fast:   opacity 150ms ease;
-    --transition-normal: opacity 200ms ease;
-    --transition-smooth: opacity 280ms ease;
+    /* Motion */
+    --ease-out-expo:     cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-fast:   all 150ms cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-normal: all 200ms cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-smooth: all 320ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Base Reset & Typography */
@@ -137,13 +137,14 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px 0 18px;
-    background: transparent;
-    border: none;
-    border-bottom: 2px solid var(--ink-primary);
-    border-radius: 0;
+    padding: 18px 24px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-bottom: 1px solid var(--border-strong);
+    border-radius: var(--radius-md);
     margin-bottom: 0;
-    box-shadow: none;
+    margin-top: 16px;
+    box-shadow: var(--shadow-sm);
     gap: 16px;
 }
 
@@ -349,7 +350,7 @@ body {
     position: relative;
     background: var(--ink-primary);
     border: 1px solid var(--border-strong);
-    border-radius: 0;
+    border-radius: var(--radius-lg);
     overflow: hidden;
     min-height: 310px;
     display: flex;
@@ -444,7 +445,7 @@ body {
 
 .manual-box {
     border: none;
-    border-left: 1px solid var(--border);
+    border-left: 2px solid var(--accent-border);
     border-radius: 0;
     padding: 0 0 0 32px;
     display: flex;
@@ -652,8 +653,9 @@ body {
 }
 
 .btn-primary:hover {
-    opacity: 0.86;
-    box-shadow: none;
+    background: var(--accent-hover);
+    box-shadow: 0 4px 14px rgba(79, 70, 229, 0.30);
+    transform: translateY(-1px);
 }
 
 /* Success — forest green flat fill */
@@ -665,8 +667,9 @@ body {
 }
 
 .btn-success:hover {
-    opacity: 0.85;
-    box-shadow: none;
+    background: #047857;
+    box-shadow: 0 4px 14px rgba(5, 150, 105, 0.30);
+    transform: translateY(-1px);
 }
 
 /* Outline */
@@ -712,7 +715,7 @@ body {
     justify-content: space-between;
     margin-bottom: 24px;
     padding-top: 28px;
-    border-top: 2px solid var(--ink-primary);
+    border-top: none;
 }
 
 .nav-actions {
@@ -724,17 +727,17 @@ body {
 /* Clinical Prescription Document */
 .prescription-document {
     background: var(--bg-surface);
-    border: 1px solid var(--border-strong);
-    border-radius: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lg);
     overflow: hidden;
     position: relative;
 }
 
-/* Document Top Header — inverted: ink on paper reversed */
+/* Document Top Header */
 .doc-header {
-    background: var(--ink-primary);
-    padding: 22px 32px;
+    background: linear-gradient(135deg, #1E1B4B 0%, #111827 100%);
+    padding: 24px 32px;
     border-bottom: none;
     display: flex;
     align-items: center;
@@ -1208,10 +1211,10 @@ body {
 
 .toast {
     background: var(--ink-primary);
-    border: 1px solid rgba(28, 25, 23, 0.6);
-    border-radius: 0;
-    padding: 11px 18px;
-    color: var(--bg-base);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-md);
+    padding: 12px 20px;
+    color: #FFFFFF;
     font-family: var(--font-body);
     font-size: 0.85rem;
     box-shadow: var(--shadow-lg);
@@ -1221,12 +1224,12 @@ body {
     min-width: 280px;
     max-width: 420px;
     pointer-events: auto;
-    animation: toastSlideIn 200ms ease;
+    animation: toastSlideIn 280ms var(--ease-out-expo);
 }
 
 @keyframes toastSlideIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
+    from { opacity: 0; transform: translateX(20px); }
+    to   { opacity: 1; transform: translateX(0); }
 }
 
 .toast.toast-error {
@@ -1247,7 +1250,9 @@ body {
 .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(28, 25, 23, 0.72);
+    background: rgba(17, 24, 39, 0.60);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     z-index: 10000;
     display: flex;
     align-items: center;
@@ -1262,10 +1267,10 @@ body {
 }
 
 .modal-card {
-    background: rgb(255, 255, 255);
-    border: 1px solid var(--border-medium);
-    border-radius: 0;
-    padding: 32px;
+    background: #FFFFFF;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: 36px;
     max-width: 460px;
     width: 100%;
     box-shadow: var(--shadow-lg);
@@ -1273,18 +1278,18 @@ body {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    animation: modalFadeIn 160ms ease;
+    animation: modalScaleIn 220ms var(--ease-out-expo);
 }
 
-@keyframes modalFadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
+@keyframes modalScaleIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to   { opacity: 1; transform: scale(1); }
 }
 
 .modal-icon-header {
     width: 56px;
     height: 56px;
-    border-radius: 0;
+    border-radius: var(--radius-lg);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1316,7 +1321,7 @@ body {
     width: 100%;
     background: var(--bg-surface-elevated);
     border: 1px solid var(--border);
-    border-radius: 0;
+    border-radius: var(--radius-md);
     padding: 12px 16px;
     margin-bottom: 24px;
     text-align: left;
