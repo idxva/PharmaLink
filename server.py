@@ -31,6 +31,10 @@ def health():
 # --- API Routes ---
 @app.route('/api/save', methods=['POST'])
 def save_prescription():
+    # Simple API key auth
+    api_key = request.headers.get('X-API-KEY', '')
+    if api_key != os.getenv('API_KEY'):
+        return jsonify({'error': 'Unauthorized'}), 401
     data = request.get_json(silent=True)
     if not data:
         return jsonify({'error': 'Invalid or missing JSON body'}), 400
