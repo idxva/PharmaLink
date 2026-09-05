@@ -750,7 +750,7 @@ body {
 
 .rx-symbol {
     font-family: 'Georgia', 'Times New Roman', serif;
-    font-size: 2.6rem;
+    font-size: 3.6rem;
     font-style: italic;
     font-weight: 400;
     color: var(--bg-base);
@@ -760,19 +760,18 @@ body {
 }
 
 .doc-title {
-
-    font-size: 1.25rem;
+    font-size: 1.25rem !important;
     font-weight: 800;
-    color: #F2EDE4;
+    color: #03ff2d !important;
     letter-spacing: 0.10em;
-
+    text-transform: uppercase;
 }
 
 .doc-subtitle {
     font-family: var(--font-mono);
     font-size: 0.72rem;
     font-weight: 400;
-    color: rgba(242, 237, 228, 0.55);
+    color: rgba(228, 242, 231, 0.55);
     display: block;
     margin-top: 3px;
     letter-spacing: 0.05em;
@@ -783,10 +782,7 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
-    background: rgba(45, 106, 79, 0.18);
-    border: 1px solid rgba(45, 106, 79, 0.35);
     padding: 8px 14px;
-    border-radius: 0;
 }
 
 .seal-icon {
@@ -1266,7 +1262,7 @@ body {
 }
 
 .modal-card {
-    background: var(--bg-surface);
+    background: rgb(255, 255, 255);
     border: 1px solid var(--border-medium);
     border-radius: 0;
     padding: 32px;

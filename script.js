@@ -523,11 +523,63 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (confirmDispenseBtn) {
         confirmDispenseBtn.addEventListener('click', () => {
-            dispenseModal.style.display = 'none';
-            showToast("Prescription marked as dispensed and archived to registry.", "success");
-            setTimeout(() => {
-                backBtn.click();
-            }, 800);
+            if (!currentPrescriptionData) return;
+
+            // ── Lock button & show spinner ────────────────────────────────────
+            confirmDispenseBtn.disabled = true;
+            const originalBtnContent = confirmDispenseBtn.innerHTML;
+            confirmDispenseBtn.innerHTML = `<span class="pulse-dot"></span><span>Archiving…</span>`;
+
+            function restoreConfirmBtn() {
+                confirmDispenseBtn.disabled = false;
+                confirmDispenseBtn.innerHTML = originalBtnContent;
+            }
+
+            // ── Build structured dispense log entry ───────────────────────────
+            const rxToken = (document.getElementById('rxHashToken')?.textContent || '')
+                .match(/TOKEN:\s*([^\s|]+)/)?.[1] || 'UNKNOWN';
+
+            const logEntry = {
+                rxToken:               rxToken,
+                dispensedAt:           firebase.firestore.FieldValue.serverTimestamp(),
+                source:                "pharmalink-terminal",
+                patient: {
+                    name:   currentPrescriptionData.patient?.name   || "Unknown",
+                    age:    currentPrescriptionData.patient?.age    || "—",
+                    gender: currentPrescriptionData.patient?.gender || "—"
+                },
+                doctor: {
+                    name:   currentPrescriptionData.doctor?.name   || "—",
+                    clinic: currentPrescriptionData.doctor?.clinic || "—"
+                },
+                medications:           currentPrescriptionData.medications || [],
+                notes:                 currentPrescriptionData.notes       || "",
+                prescriptionTimestamp: currentPrescriptionData.timestamp   || ""
+            };
+
+            // ── Write to Firestore dispenseLogs collection ────────────────────
+            db.collection('dispenseLogs').add(logEntry)
+                .then((docRef) => {
+                    console.log('[DISPENSE] ✓ Log archived to Firestore:', docRef.id, logEntry);
+                    dispenseModal.style.display = 'none';
+                    restoreConfirmBtn();
+                    showToast(
+                        `Dispensation archived to Firebase (ID: ${docRef.id.substring(0, 8)}…)`,
+                        "success"
+                    );
+                    setTimeout(() => { backBtn.click(); }, 900);
+                })
+                .catch((err) => {
+                    console.error('[DISPENSE] Firestore write failed:', err);
+                    restoreConfirmBtn();
+                    // Still close modal & navigate back, but warn the user
+                    dispenseModal.style.display = 'none';
+                    showToast(
+                        "Archive to Firebase failed. Dispensation recorded locally only. Check console for details.",
+                        "error"
+                    );
+                    setTimeout(() => { backBtn.click(); }, 1200);
+                });
         });
     }
 
