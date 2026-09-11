@@ -610,6 +610,21 @@ document.addEventListener('DOMContentLoaded', () => {
     startScanner();
 });
 
+function updateDate() {
+    const options = {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    };
+
+    document.getElementById("currentDate").innerText =
+        new Date().toLocaleDateString("en-US", options);
+}
+
+updateDate();
+
+
 // ─── PWA Service Worker Registration ──────────────────────────────────────────
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
