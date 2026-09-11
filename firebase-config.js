@@ -3,7 +3,7 @@
 // Note: These are example credentials. Replace with your actual Firebase project credentials.
 
 window.firebaseConfig = {
-    apiKey: "AIzaSyBRJ9kWA5l2UQaq9iwPtJBnZmz434bTbbA",
+    apiKey1: "AIzaSyBRJ9kWA5l2UQaq9iwPtJBnZmz434bTbbA",
     authDomain: "pharmacylogs.firebaseapp.com",
     projectId: "pharmacylogs",
     storageBucket: "pharmacylogs.firebasestorage.app",
